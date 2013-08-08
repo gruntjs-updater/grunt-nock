@@ -15,14 +15,6 @@ module.exports = function(grunt) {
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
 
-  grunt.registerTask('nock-test', 'Test task for nock recording.', function() {
-    var request = require('request');
-    var done = this.async();
-    request.get('http://www.google.com', function(err, response, body) {
-      done();
-    });
-  });
-
   grunt.registerMultiTask('nock', 'Your task description goes here.', function() {
     // Merge options with defaults
     var tasks = this.options().tasks || []; 
@@ -30,7 +22,7 @@ module.exports = function(grunt) {
     var output = this.options().output || 'recordings.js';
 
     if (tasks.length === 0) {
-      console.log('No tasks specified. Nothing to do here.');
+      console.log('\nNo tasks specified. Nothing to do here.');
       return;
     }
 

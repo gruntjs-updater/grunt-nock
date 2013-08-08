@@ -11,9 +11,6 @@
     "type": "git",
     "url": "git://github.com/joshgummersall/grunt-nock.git"
   },
-  "bugs": {
-    "url": "https://github.com/joshgummersall/grunt-nock/issues"
-  },
   "licenses": [
     {
       "type": "MIT",
@@ -29,8 +26,6 @@
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-nodeunit": "~0.2.0",
     "grunt": "~0.4.1"
   },
   "peerDependencies": {
