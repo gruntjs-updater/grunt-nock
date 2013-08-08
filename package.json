@@ -1,7 +1,7 @@
 {
   "name": "grunt-nock",
-  "description": "Run a grunt task while capturingg requests in Nock format",
-  "version": "0.1.0",
+  "description": "Run a grunt task while capturing requests in Nock format",
+  "version": "0.1.1",
   "homepage": "https://github.com/joshgummersall/grunt-nock",
   "author": {
     "name": "Josh Gummersall",
