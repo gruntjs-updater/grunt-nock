@@ -9,42 +9,58 @@
 'use strict';
 
 module.exports = function(grunt) {
+  var nock = require('nock');
+  var fs = require('fs');
 
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
 
-  grunt.registerMultiTask('nock', 'Your task description goes here.', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      punctuation: '.',
-      separator: ', '
-    });
-
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
-        }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
-
-      // Handle options.
-      src += options.punctuation;
-
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
-
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
+  grunt.registerTask('nock-test', 'Test task for nock recording.', function() {
+    var request = require('request');
+    var done = this.async();
+    request.get('http://www.google.com', function(err, response, body) {
+      done();
     });
   });
 
+  grunt.registerMultiTask('nock', 'Your task description goes here.', function() {
+    // Merge options with defaults
+    var tasks = this.options().tasks || []; 
+    tasks = Array.prototype.slice.call(tasks) || [];
+    var output = this.options().output || 'recordings.js';
+
+    if (tasks.length === 0) {
+      console.log('No tasks specified. Nothing to do here.');
+      return;
+    }
+
+    nock.recorder.rec(true);
+    tasks.push('write-nock:' + output);
+    grunt.task.run(tasks);
+  });
+
+  grunt.registerTask('write-nock', 'Write recorded nocks to a file.', function(f) {
+    if (typeof(f) !== 'string') {
+      console.log('Improper use.');
+      return;
+    }
+
+    var nocks = nock.recorder.play() || [];
+    if (nocks.length === 0) {
+      console.log('No nocks captured. Nothing to do here.');
+      return;
+    }
+
+    try {
+      fs.writeFileSync(f, 'var nock = require(\'nock\');\n');
+      fs.appendFileSync(f, nocks.join(''));
+      console.log('\nYour nock recordings have been written to ' + f + '.');
+    } catch (e) {
+      console.log('\nAn error occurred while writing nocks to disk.');
+      console.log('Your nocks will now print to stdout.');
+      console.log('\n-----------------------------------------------------\n');
+      console.log('var nock = require(\'nock\');');
+      console.log(nocks.join(''));
+    }
+  });
 };
