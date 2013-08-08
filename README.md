@@ -22,68 +22,28 @@ grunt.loadNpmTasks('grunt-nock');
 ### Overview
 In your project's Gruntfile, add a section named `nock` to the data object passed into `grunt.initConfig()`.
 
-```js
-grunt.initConfig({
-  nock: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
-})
-```
-
 ### Options
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
+#### options.tasks
+This should be an array of tasks that you want to run while capturing nocks. A good example of a task that should
+be included here is a test that uses the `request` module to hit some APIs. You can record nocks of these requests
+to use in place of the actual requests so you don't waste precious API quotas.
 
-A string value that is used to do something with whatever.
-
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
-
-A string value that is used to do something else with whatever else.
+#### options.output
+This should be a string file name that you want to save the nocks to when they are done recording.
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
 ```js
 grunt.initConfig({
   nock: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
+    default: {
+      options: {
+        tasks: ['test1', 'test2', 'test3'],
+        output: 'recordings.js'
+      }
+    }
   },
-})
+  ...
+});
 ```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
-
-```js
-grunt.initConfig({
-  nock: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-})
-```
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
-
-## Release History
-_(Nothing yet)_
