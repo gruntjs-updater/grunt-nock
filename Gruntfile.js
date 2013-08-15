@@ -24,12 +24,13 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     nock: {
-      default: {
-        options: {
-          output: 'recordings.js',
-          tasks: []
-        },
+      all: {
+        output: 'recordings.js',
+        tasks: []
       },
+      options: {
+        overwrite: true
+      }
     },
   });
 

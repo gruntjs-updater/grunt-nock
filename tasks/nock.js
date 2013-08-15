@@ -17,13 +17,19 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('nock', 'Your task description goes here.', function() {
     // Merge options with defaults
-    var tasks = this.options().tasks || []; 
+    var tasks = this.data.tasks || [];
     tasks = Array.prototype.slice.call(tasks) || [];
-    var output = this.options().output || 'recordings.js';
+    var output = this.data.output || 'recordings.js';
+    var overwrite = this.options().overwrite || false;
 
     if (tasks.length === 0) {
       console.log('\nNo tasks specified. Nothing to do here.');
       return;
+    }
+
+    // Overwrite old file if so prompted
+    if (overwrite) {
+      fs.writeFileSync(output, '{}');
     }
 
     nock.recorder.rec(true);

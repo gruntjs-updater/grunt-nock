@@ -24,24 +24,30 @@ In your project's Gruntfile, add a section named `nock` to the data object passe
 
 ### Options
 
-#### options.tasks
+#### tasks
 This should be an array of tasks that you want to run while capturing nocks. A good example of a task that should
 be included here is a test that uses the `request` module to hit some APIs. You can record nocks of these requests
 to use in place of the actual requests so you don't waste precious API quotas.
 
-#### options.output
+#### output
 This should be a string file name that you want to save the nocks to when they are done recording.
+
+### options.overwrite
+This option allows you to decide whether the file specified in the output option will be overwritten prior to running
+the tasks specified in the tasks option. This is useful and should usually be true so the (potentially) old nock
+recordings will be removed before running the tasks.
 
 ### Usage Examples
 
 ```js
 grunt.initConfig({
   nock: {
-    default: {
-      options: {
-        tasks: ['test1', 'test2', 'test3'],
-        output: 'recordings.js'
-      }
+    all: {
+      tasks: ['test1', 'test2', 'test3'],
+      output: 'recordings.js'
+    },
+    options: {
+      overwrite: true
     }
   },
   ...
