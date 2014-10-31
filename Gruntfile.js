@@ -15,7 +15,7 @@ module.exports = function(grunt) {
     jshint: {
       all: [
         'Gruntfile.js',
-        'tasks/*.js',
+        'tasks/*.js'
       ],
       options: {
         jshintrc: '.jshintrc',
@@ -31,12 +31,11 @@ module.exports = function(grunt) {
       options: {
         overwrite: true
       }
-    },
+    }
   });
 
   // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.registerTask('test', ['jshint', 'nock']);
   grunt.registerTask('default', ['jshint', 'nock']);
 };
