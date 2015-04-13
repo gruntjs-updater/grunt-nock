@@ -1,4 +1,4 @@
-# grunt-nock
+# grunt-nock (deprecated)
 
 > Run a grunt task while capturingg requests in Nock format
 
